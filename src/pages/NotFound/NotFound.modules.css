@@ -1,0 +1,24 @@
+.search-icon {
+    color: black;
+
+    position: relative;
+    left: -50px;
+    height: 100px;
+    ;
+}
+
+svg {
+    display: block;
+    margin: auto;
+
+
+}
+
+.my-link {
+    color: sandybrown;
+    font-size: 3rem;
+}
+
+#root {
+    height: 100vh;
+}

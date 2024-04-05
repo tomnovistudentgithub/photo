@@ -1,0 +1,16 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /*padding-left: 250px;*/
+    /*padding-right: 250px;*/
+
+}
+
+h1 {
+text-align: center;
+    min-width: 1300px;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 80%, 20% 120%);
+}

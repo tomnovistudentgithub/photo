@@ -1,0 +1,73 @@
+.topic-photos-wrapper {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(224, 157, 18, 0.85);
+    color: white;
+    font-size: 2rem;
+
+}
+
+.overlay {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.2);
+
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.topic-photos img {
+    border: solid 20px #000;
+    margin: 20px;
+}
+
+
+
+.overlay h1, .overlay p {
+    background-color: rgba(38, 72, 208, 0.73);;
+    font-size: 2rem;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);;
+    /*grid-template-areas:*/
+    /*"portrait landscape landscape portrait"*/
+    /*"portrait landscape landscape portrait"*/
+    /*"portrait . . portrait";*/
+
+    padding: 20px;
+    background-color: rgba(33, 53, 71, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 14px rgba(0, 0, 0, 0.2);
+    /*max-width: 100%;*/
+    /*max-height: 100vh;*/
+}
+
+/*.photo-grid img {*/
+/*    width: 100%;*/
+/*    object-fit: cover;*/
+/*}*/
+
+
+/*.photo-grid .portrait {*/
+/*    grid-row: span 2;*/
+/*    grid-area: portrait;*/
+/*}*/
+
+/*.photo-grid .landscape {*/
+/*    grid-column: span 2;*/
+/*    grid-area: landscape;*/
+/*}*/
