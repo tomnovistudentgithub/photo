@@ -1,42 +1,37 @@
 import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import getUserInfoField from "../../api/noviBackendApi/getUserInfoField.js";
+import {faThumbtack, faBan} from "@fortawesome/free-solid-svg-icons";
+import '/src/components/PhotoPinner/PhotoPinner.modules.css';
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function PhotoPinner({photo}) {
-    const { pinnedPhotos, pinPhoto, unpinPhoto } = useContext(PinnedPhotosContext);
+    const { pinnedPhotos, setPinnedPhotos, togglePinPhoto } = useContext(PinnedPhotosContext);
     const [isPhotoPinned, setIsPhotoPinned] = useState(false);
     const handlePinPhoto = () => {
-        pinPhoto(photo);
+        togglePinPhoto(photo);
     }
     const handleUnpinPhoto = () => {
-        unpinPhoto(photo);
+        togglePinPhoto(photo);
     }
 
     useEffect(() => {
-        const fetchUserInfo = async () => {
-            const userInfo = await getUserInfoField();
-            const isPinnedInDB = userInfo && userInfo.includes(photo.id);
-            setIsPhotoPinned(isPinnedInDB);
-        };
-        fetchUserInfo();
-    }, [photo.id]);
-
-    useEffect(() => {
-        setIsPhotoPinned(pinnedPhotos.includes(photo.id));
-    }, [pinnedPhotos, photo.id]);
-
-
+        const isPinnedInDB = pinnedPhotos.some(pinnedPhoto => pinnedPhoto.id === photo.id);
+        setIsPhotoPinned(isPinnedInDB);
+    }, [photo.id, pinnedPhotos]);
 
 
     return (
-        <div>
-        {isPhotoPinned ? (
-            <button onClick={handleUnpinPhoto}>Unpin</button>
-        ) : (
-            <button onClick={handlePinPhoto}>Pin</button>
+        <div className="pinButtonContainer">
+            {isPhotoPinned ? (
+                <button onClick={handleUnpinPhoto}><FontAwesomeIcon icon={faBan} /> Unpin</button>
+            ) : (
+                <button onClick={handlePinPhoto}><FontAwesomeIcon icon={faThumbtack} /> Pin</button>
             )}
         </div>
     );
 }
+
 
 export default PhotoPinner;

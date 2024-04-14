@@ -2,9 +2,12 @@ import React, {useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import './Contact.modules.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faCamera } from '@fortawesome/free-solid-svg-icons';
 import { faUser as faUserRegular, faUserCircle, faMessage} from '@fortawesome/free-regular-svg-icons';
 import getUserRoleEmail from "../../api/noviBackendApi/getUserRoleEmail.js";
+import uploadPhoto from "../../helpers/uploadPhoto.js";
+import uploadPhotoToApi from "../../api/noviBackendApi/uploadPhotoToApi.js";
+
 
 
 
@@ -13,7 +16,7 @@ function Contact() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [username, setUsername] = useState('');
-
+    const [errorPhotoUpload, setErrorPhotoUpload] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -35,11 +38,26 @@ function Contact() {
     }, [setValue]);
 
 
-    const onSubmit = data => {
-        console.log(data);
-        setFormData(data);
-        setIsModalOpen(true);
+    const onSubmit = async data => {
+        const photoFile = data.photoUpload[0];
+        const formData = uploadPhoto(username, photoFile);
+
+        if (typeof result === 'string') {
+            setErrorPhotoUpload(formData);
+            } else {
+            const response = await uploadPhotoToApi(username, formData);
+            if (response && response.status === 200) {
+                setFormData({
+                    name: data.name,
+                    email: data.email,
+                    message: data.message,
+                    photoUpload: photoFile.name
+                });
+                setIsModalOpen(true);
+            }
+        }
     };
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -61,7 +79,7 @@ function Contact() {
                     {errors.name && <p>This field is required</p>}
                 </div>
                 <div className="input-label">
-                    <FontAwesomeIcon icon={faUserCircle} />
+                    <FontAwesomeIcon icon={faUserCircle}/>
                     <input {...register("userName", {required: false})}
                            placeholder="Username"
                            disabled={!!username}
@@ -77,18 +95,27 @@ function Contact() {
                 {errors.email && <p>This field is required</p>}
 
                 <div className="input-label">
-                    <FontAwesomeIcon icon={faMessage} />
+                    <FontAwesomeIcon icon={faMessage}/>
                     <textarea {...register("message", {required: true})} placeholder="Message"/>
                     {errors.message && <p>This field is required</p>}
                 </div>
-                    <input type="submit"/>
+                <div className="input-label">
+                    <FontAwesomeIcon icon={faCamera}/>
+
+                    <input type="file" {...register("photoUpload", {required: false})} />
+                    <label>JPG or PNG</label>
+                    {errorPhotoUpload && <p>{errorPhotoUpload}</p>}
+                </div>
+                {errors.photo && <p>This field is required</p>}
+
+                <input type="submit"/>
             </form>
 
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
-                    <h2>Thank you for your submission, we'll get back to you!</h2>
-                    <p>Your submission:</p>
+                        <h3>Thank you for your submission, we'll get back to you!</h3>
+                        <p>Your submission:</p>
                     <p>Name: {formData.name}</p>
                     <p>Email: {formData.email}</p>
                     <p>Message: {formData.message}</p>

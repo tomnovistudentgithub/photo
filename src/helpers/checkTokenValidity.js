@@ -1,13 +1,12 @@
-import React from 'react';
+import jwt from 'jsonwebtoken';
 
-const CheckTokenValidity = () => {
+function checkTokenValidity(token) {
+    try {
+        jwt.verify(token, 'your-secret-key');
+        return { isValid: true, token };
+    } catch (error) {
+        return { isValid: false, message: 'Token is no longer valid. Please login again.' };
+    }
+}
 
-
-    return (
-        <div>
-
-        </div>
-    );
-};
-
-export default CheckTokenValidity;
+export default checkTokenValidity;

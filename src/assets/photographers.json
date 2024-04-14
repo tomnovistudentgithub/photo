@@ -1,0 +1,35 @@
+{
+  "photographers": [
+    {
+      "id": 1,
+      "name": "Foto Graafje",
+      "email": "foto.graafje@domein.nl",
+      "workarea": "Limburg" ,
+      "style": ["city", "urban", "architecture", "street"]
+    },
+
+    {
+      "id": 2,
+      "name": "Plaatjes Schieter",
+      "email": "plaatjes.schieter@domein.nl",
+      "workarea": "Utrecht" ,
+      "style": ["outdoors", "nature", "landscape"]
+    },
+
+    {
+      "id": 3,
+      "name": "Mooi Exemplaar",
+      "email": "mooi.exemplaar@domein.nl",
+      "workarea": "Overijssel" ,
+      "style": ["portret", "street", "architecture"]
+    },
+
+    {
+      "id": 4,
+      "name": "Plaatjes Schieter",
+      "email": "john.doe@example.com",
+      "workarea": "Gelderland" ,
+      "style": ["wedding", "party", "event"]
+    }
+  ]
+}

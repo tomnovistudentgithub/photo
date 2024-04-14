@@ -4,13 +4,26 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
+    background-color: #007BFF;
+    margin-top: 75px;
+
     /*padding-left: 250px;*/
     /*padding-right: 250px;*/
 
 }
 
-h1 {
+.about-container h1 {
 text-align: center;
     min-width: 1300px;
     clip-path: polygon(0% 0%, 100% 0%, 90% 80%, 20% 120%);
 }
+
+.about-container p {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding:75px;
+}
+
+

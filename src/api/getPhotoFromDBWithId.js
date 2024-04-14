@@ -1,50 +1,20 @@
-import React from 'react';
-import backendEndpoint from "./noviBackendApi/backendEndpoint.js";
-import getUserInfoField from "./noviBackendApi/getUserInfoField.js";
-import getUserFromTokenAndPassToken from "../helpers/getUserFromTokenAndPassToken.js";
+import axios from 'axios';
 import unsplashedEndpoint from "./unsplashedApi/unsplashedEndpoint.js";
 
+export default async function getPhotoFromDBWithId(id) {
 
-async function GetPhotosFromDbByID() {
-    const userAndToken = getUserFromTokenAndPassToken();
 
-    const photoIds = await getUserInfoField(userAndToken);
-    console.log('photoIds:', photoIds);
-
-    if (photoIds === null) {
-        return null;
-    }
-
-    const photos = [];
-    for (const id of photoIds) {
-        const photo = await getPhotoFromUnsplashedWithId(id);
-        if (photo !== null) {
-            photos.push(photo);
-        }
-    }
-    return photos;
-}
-
-async function getPhotoFromUnsplashedWithId(id) {
     try {
         const response = await unsplashedEndpoint.get(`/photos/${id}`);
-
         if (response.status >= 200 && response.status < 300) {
+            console.log(`Fetched photo with ID ${id}:`, response.data);
             return response.data;
+        } else {
+            console.error(`Failed to fetch photo with ID ${id}: status ${response.status}`);
+            return null;
         }
     } catch (error) {
-        if (error.response) {
-            console.error(`HTTP error status: ${error.response.status}`);
-            console.log('Error message:', error.response.data);
-            console.log('Error response:', error.response);
-        } else if (error.request) {
-            console.error('No response received:', error.request);
-        } else {
-            console.error('Error', error.message);
-        }
+        console.error(`Failed to fetch photo with ID ${id}:`, error);
+        return null;
     }
-
-    return null;
 }
-
-export default GetPhotosFromDbByID;

@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, {useContext} from 'react';
+import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PhotoDetailPage from './pages/PhotoDetailPage';
 import TopicPhotos from "./pages/TopicPhotos/TopicPhotos.jsx";
@@ -12,12 +12,14 @@ import AdminPortal from "./pages/Admin/AdminPortal.jsx";
 import './App.css';
 import GridPage from "./pages/grid/Gridpage.jsx";
 import PinnedPhotosProvider from "./contexts/PinnedPhotosProvider.jsx";
-import AuthContextProvider from "./contexts/AuthContext.jsx";
+import AuthContextProvider, {AuthContext} from "./contexts/AuthContext.jsx";
 import About from "./pages/About/About.jsx";
+import MyPins from "./pages/MyPins/MyPins.jsx";
 
 function App() {
 
     const auth = true;
+
 
 
     return (
@@ -33,6 +35,7 @@ function App() {
                 <Route path="/photo/:id" element={<PhotoDetailPage />} />
                 <Route path="/topic/:topicId" element={<TopicPhotos />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/mypins" element={<MyPins />} />
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/grid" element={<GridPage />} />
                 <Route path="/admin" element={auth ? <AdminPortal /> : <Login />} />

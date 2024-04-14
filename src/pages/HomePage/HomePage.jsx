@@ -15,17 +15,15 @@ function HomePage() {
     const { pinnedPhotos, pinPhoto } = useContext(PinnedPhotosContext);
 
 
-    useEffect(() => {
-
-    }, [pinnedPhotos]);
+    // useEffect(() => {
+    //
+    // }, [pinnedPhotos]);
 
 
 
     if (photosLoading || topicsLoading) {
         return <div>Loading...</div>;
     }
-
-
 
     //Todo: add a loading spinner while the data is being fetched
     //todo: state management en useEffect verhuizen naar custom hook directories,
@@ -64,7 +62,7 @@ function HomePage() {
         <div className="outer-section-homepage">
             <div className="header-container">
             <h2>Photo topics</h2>
-            <div className="juststyle"></div>
+            {/*<div className="juststyle"></div>*/}
             </div>
 
             <section className="outer-section-topics">
@@ -81,15 +79,18 @@ function HomePage() {
                 ))}
 
             </section>
-            <section className="outer-section-photos">
-                <h2>Photos</h2>
-                {photos.map((photo) => (
-                    <div key={photo.id}>
-                        <PhotoCard photo={photo}/>
-                        <PhotoPinner photo={photo}/>
-                    </div>
-                ))}
-            </section>
+
+
+                <div className="header-container">
+                    <h2>Photos</h2>
+                </div>
+
+                <section className="outer-section-photos-homepage">
+                    {photos.map((photo) => (
+                        <PhotoCard key={photo.id} photo={photo}/>
+                    ))}
+                </section>
+
         </div>
 
     );

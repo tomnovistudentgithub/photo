@@ -1,11 +1,6 @@
-import {getPhotos} from "../api/unsplashedApi/getPhotos.js";
-import getPhotoFromDBWithId from "../api/getPhotoFromDBWithId.js";
+import sortTagCountsDescending from "./sortTagCountsDescending.js";
 
-async function countTagsInPhotos() {
-
-
-    //toDo: change this with a users photos
-    const photos = await getPhotoFromDBWithId();
+function countTagsInPhotos(photos) {
 
     const tagCounts = {};
 
@@ -22,7 +17,9 @@ async function countTagsInPhotos() {
         });
     });
 
-    return tagCounts;
+    const sortedTagCounts = sortTagCountsDescending(tagCounts);
+
+    return sortedTagCounts;
 }
 
 export default countTagsInPhotos;

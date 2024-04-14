@@ -7,9 +7,6 @@ function getUserFromTokenAndPassToken() {
   if (token) {
    const decodedToken = jwtDecode(token);
       const username = decodedToken.sub;
-      console.log('username: ', username);
-      console.log('token: ', token);
-
     return { username, token };
   }
   return null;

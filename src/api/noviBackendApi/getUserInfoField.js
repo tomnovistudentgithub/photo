@@ -1,6 +1,7 @@
 import getUserFromTokenAndPassToken from "../../helpers/getUserFromTokenAndPassToken.js";
 import backendEndpoint from "./backendEndpoint.js";
 
+
 async function getUserInfoField({ username, token } = {}) {
     if (!username || !token) {
         const result = getUserFromTokenAndPassToken();
@@ -12,7 +13,6 @@ async function getUserInfoField({ username, token } = {}) {
     }
 
     if (username && token) {
-
         try {
             const response = await backendEndpoint.get(`/users/${username}/info`, {
                 headers: {

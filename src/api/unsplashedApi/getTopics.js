@@ -16,7 +16,7 @@ export const getTopics = async (page, itemsPerPage) => {
    // }
 
     try {
-        const response = await unsplashedEndpoint.get('/topics?per_page=100');
+        const response = await unsplashedEndpoint.get('/topics?per_page=20');
         console.log("getTopics: ", response.data);
 
         let topics = response.data;

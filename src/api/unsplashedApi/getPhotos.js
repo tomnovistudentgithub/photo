@@ -13,6 +13,8 @@ export const getPhotos = async () => {
         // promise.all wordt gebruikt zodat de
         // calls parallel worden uitgevoerd
         // in plaats van stuk voor stuk zoals met await zou gebeuren.
+
+        //TODO: getPhotoById is op twee plekken gedefinieerd in getPhotos.js en in pinnedPhotosProvider.jsx en
         const photoDetailsPromises = response.data.map(photo => getPhotoById(photo.id));
         const photosWithDetailsResponses = await Promise.all(photoDetailsPromises);
 
@@ -34,6 +36,8 @@ export const getPhotos = async () => {
     }
 };
 
+
+//TODO: getPhotoById is op twee plekken gedefinieerd in getPhotos.js en in
 export const getPhotoById = async (id) => {
     try {
         const response = await unsplashedEndpoint.get(`/photos/${id}`);

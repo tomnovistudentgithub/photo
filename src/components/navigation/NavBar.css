@@ -12,9 +12,9 @@
     flex-direction: row;
     align-items: center;
     height: 75px;
-
     z-index: 2;
     flex-basis: 1800px;
+
 }
 
 nav {
@@ -23,12 +23,11 @@ nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
-    margin-left: 20px;
-
+         margin-left: 20px;
 
 }
 
-ul {
+nav ul {
     display: flex;
     flex-direction: row;
     gap: 30px;
@@ -37,7 +36,7 @@ ul {
 }
 
 
-li {
+nav li {
     /*flex-basis: 125px;*/
     text-align: center;
     list-style: none;
@@ -54,13 +53,18 @@ li {
     /*box-shadow: #1a1a1a 0px 0px 10px;*/
 
     transform: skewX(-20deg);
-
-
 }
+
+.thumbtack-icon-navbar {
+
+    font-size: 1.5rem;
+    transform: skewX(20deg);
+}
+
 /* screen size small */
 
 @media (max-width: 768px) {
-    li {
+    nav li {
         flex-basis: 60px;
         text-align: center;
         list-style: none;
@@ -73,12 +77,12 @@ li {
         border-radius: 10px;
         transition: all 0.3s ease;
         box-shadow: #1a1a1a 0px 0px 10px;
-
+        align-content: center;
         transform: skewX(-20deg);
 
     }
 
-    ul {
+    nav ul {
         gap: 15px;
 
     }
@@ -86,8 +90,7 @@ li {
 
 
 
-
-li:hover {
+nav li:hover {
     background-color: rgba(61, 4, 168, 0.9);
     transform: skewX(0deg);
     box-shadow: #1a1a1a 0px 0px 20px;
@@ -95,16 +98,20 @@ li:hover {
     padding: 20px;
 }
 
-li:active {
+.thumbtack-icon-navbar:hover {
+    font-size: 1.5rem;
+    transform: skewX(-20deg);
+}
+
+nav li:active {
 
     background-color: rgba(38, 72, 208, 0.5);
 }
 
 .active-link {
     color: white;
-    background-color: rgba(38, 72, 208, 0.5);
+    /*background-color: rgba(38, 72, 208, 0.5);*/
     padding: 20px;
-
 }
 
 a {

@@ -6,7 +6,7 @@ function GridPage() {
 
     <div>
 
-        <div className="grid-container">
+        <div className="grid-container-grid">
             <div>
                 <h3>Grid 1</h3>
                 <p>Some text</p>
