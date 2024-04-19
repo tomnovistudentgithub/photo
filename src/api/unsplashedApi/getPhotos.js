@@ -4,9 +4,13 @@ import countTagsInPhotos from "../../helpers/countTagsInPhotos.js";
 
 
 
-export const getPhotos = async () => {
+export const getPhotos = async (page = 1) => {
     try {
-        const response = await unsplashedEndpoint.get('/photos');
+        const response = await unsplashedEndpoint.get('/photos', {
+            params: {
+                page
+            }
+        });
 
         //de opgehaalde data bevat het ID dat gebruikt
         // kan worden voor het ophalen van de tags.

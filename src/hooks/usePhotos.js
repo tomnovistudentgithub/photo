@@ -4,11 +4,12 @@ import { getPhotos } from '../api/unsplashedApi/getPhotos.js';
 export const usePhotos = () => {
     const [photos, setPhotos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         const fetchPhotos = async () => {
             try {
-                const photoData = await getPhotos();
+                const photoData = await getPhotos(page);
                 setPhotos(photoData);
                 setIsLoading(false);
             } catch (error) {
@@ -18,7 +19,7 @@ export const usePhotos = () => {
         };
 
         fetchPhotos();
-    }, []);
+    }, [page]);
 
-    return { photos, isLoading };
+    return { photos, isLoading,setPage };
 };

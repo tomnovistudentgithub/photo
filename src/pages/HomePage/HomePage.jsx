@@ -10,7 +10,7 @@ import PhotoPinner from "../../components/PhotoPinner/PhotoPinner.jsx";
 import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
 
 function HomePage() {
-    const { photos, isLoading: photosLoading } = usePhotos();
+    const { photos, isLoading: photosLoading, setPage } = usePhotos();
     const { topics, isLoading: topicsLoading } = useTopics();
     const { pinnedPhotos, pinPhoto } = useContext(PinnedPhotosContext);
 
@@ -24,6 +24,14 @@ function HomePage() {
     if (photosLoading || topicsLoading) {
         return <div>Loading...</div>;
     }
+
+    const handleNext = () => {
+        setPage(prevPage => prevPage + 1);
+    };
+
+    const handlePrev = () => {
+        setPage(prevPage => prevPage > 1 ? prevPage - 1 : 1);
+    };
 
     //Todo: add a loading spinner while the data is being fetched
     //todo: state management en useEffect verhuizen naar custom hook directories,
@@ -85,11 +93,13 @@ function HomePage() {
                     <h2>Photos</h2>
                 </div>
 
-                <section className="outer-section-photos-homepage">
-                    {photos.map((photo) => (
-                        <PhotoCard key={photo.id} photo={photo}/>
-                    ))}
-                </section>
+            <section className="outer-section-photos-homepage">
+                {photos.map((photo) => (
+                    <PhotoCard key={photo.id} photo={photo}/>
+                ))}
+                <button onClick={handlePrev}>Previous</button>
+                <button onClick={handleNext}>Next</button>
+            </section>
 
         </div>
 

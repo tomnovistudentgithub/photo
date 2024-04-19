@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './PhotoCard.modules.css';
 import PhotoPinner from "../PhotoPinner/PhotoPinner.jsx";
 
 function PhotoCard({ photo }) {
+
     return (
         <div className="photo-card-inner-container">
             <div className="photo-card-image-container">
