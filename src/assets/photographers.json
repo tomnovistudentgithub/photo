@@ -26,10 +26,10 @@
 
     {
       "id": 4,
-      "name": "Plaatjes Schieter",
+      "name": "Trouw Fotograaf",
       "email": "john.doe@example.com",
       "workarea": "Gelderland" ,
-      "style": ["wedding", "party", "event"]
+      "style": ["wedding", "party", "event", "person"""],
     }
   ]
 }

@@ -4,7 +4,8 @@ import './NavBar.css';
 import { throttle } from 'lodash';
 import {AuthContext} from "../../contexts/AuthContext.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbtack } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faLeaf, faInfoCircle, faEnvelope, faThumbtack } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 function NavBar() {
     let location = useLocation();
@@ -14,7 +15,6 @@ function NavBar() {
     const matchMyPins = useMatch("/mypins");
 
 
-    console.log(location);
     const handleLoginClick = () => {
         navigate("/login", { state: { from: location.pathname } });
     };
@@ -81,25 +81,27 @@ function NavBar() {
 
     return (
         <div className="flex-container">
-       <div className="nav-wrapper">
-           <nav>
-               <ul>
-                   <li><NavLink to="/" className={useMatch("/") ? "active-link" : ""}>Home</NavLink></li>
-                   <li><NavLink to="/topic/nature" className={useMatch("/topic/nature") ? "active-link" : ""}>Nature
-                       Photos</NavLink></li>
-                   <li><NavLink to="/about" className={useMatch("/about") ? "active-link" : ""}>About</NavLink></li>
-                   <li><NavLink to="/contact" className={useMatch("/contact") ? "active-link" : ""}>Contact</NavLink></li>
-                   {isLoggedIn && <li><NavLink to="/mypins" className={matchMyPins ? "active-link" : ""}><FontAwesomeIcon icon={faThumbtack} className="thumbtack-icon-navbar" /> My Pins</NavLink></li>}
-               </ul>
-               <div className="login-button">
-                   {isLoggedIn ? (
-                       <button onClick={handleLogoutClick}>Logout</button>
-                   ) : (
-                       <button onClick={handleLoginClick}>Login</button>
-                   )}
-               </div>
-           </nav>
-       </div>
+            <div className="nav-wrapper">
+                <nav>
+                    <ul>
+                        <li><NavLink to="/" className={useMatch("/") ? "active-link" : ""}><FontAwesomeIcon className="nav-icon" icon={faHome} /><span className="nav-text">Home</span></NavLink></li>
+                        <li><NavLink to="/about" className={useMatch("/about") ? "active-link" : ""}><FontAwesomeIcon className="nav-icon" icon={faInfoCircle} /><span className="nav-text">About</span></NavLink></li>
+                        <li><NavLink to="/contact" className={useMatch("/contact") ? "active-link" : ""}><FontAwesomeIcon className="nav-icon" icon={faEnvelope} /><span className="nav-text">Contact</span></NavLink></li>
+                        {isLoggedIn && <li><NavLink to="/mypins" className={matchMyPins ? "active-link" : ""}><FontAwesomeIcon className="nav-icon" icon={faThumbtack} /><span className="nav-text nav-text-mypins">My Pins</span></NavLink></li>}
+                    </ul>
+                    <div className="login-button">
+                        {isLoggedIn ? (
+                            <button className="login-logout-button" onClick={handleLogoutClick}><FontAwesomeIcon className="login-icon"
+                                                                                 icon={faSignOutAlt}/><span
+                                className="login-text"> Logout</span></button>
+                        ) : (
+                            <button className="login-logout-button" onClick={handleLoginClick}><FontAwesomeIcon className="login-icon"
+                                                                                icon={faSignInAlt}/><span
+                                className="login-text"> Login</span></button>
+                        )}
+                    </div>
+                </nav>
+            </div>
         </div>
     );
 }

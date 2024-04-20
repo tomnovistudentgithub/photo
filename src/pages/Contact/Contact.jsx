@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import './Contact.modules.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faUser, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faCamera, faIdBadge, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faUser as faUserRegular, faUserCircle, faMessage} from '@fortawesome/free-regular-svg-icons';
 import getUserRoleEmail from "../../api/noviBackendApi/getUserRoleEmail.js";
 import uploadPhoto from "../../helpers/uploadPhoto.js";
 import uploadPhotoToApi from "../../api/noviBackendApi/uploadPhotoToApi.js";
-
-
+import MatchPhotoGrapherToUserByTags from '../../components/MatchPhotoGrapherToUserByTags.jsx';
+import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
+import photographersData from '../../assets/photographers.json';
 
 
 function Contact() {
@@ -17,6 +18,29 @@ function Contact() {
     const [formData, setFormData] = useState({});
     const [username, setUsername] = useState('');
     const [errorPhotoUpload, setErrorPhotoUpload] = useState('');
+    const [photographer, setPhotographer] = useState('');
+    // const [photographers, setPhotographers] = useState([]);
+    const { tagCounts } = useContext(PinnedPhotosContext);
+    const [workAreas, setWorkAreas] = useState([]);
+    const [selectedArea, setSelectedArea] = useState('');
+    const [filteredPhotographers, setFilteredPhotographers] = useState([]);
+    const [photographersInArea, setPhotographersInArea] = useState([]);
+
+
+    useEffect(() => {
+        if (tagCounts) {
+            const matchingPhotographers = MatchPhotoGrapherToUserByTags({ tagCounts });
+            setFilteredPhotographers(matchingPhotographers);
+            const uniqueWorkAreas = [...new Set(matchingPhotographers.map(photographer => photographer.workarea))];
+            setWorkAreas(uniqueWorkAreas);
+        }
+    }, [tagCounts]);
+
+
+    useEffect(() => {
+        const photographersInSelectedArea = filteredPhotographers.filter(photographer => photographer.workarea === selectedArea);
+        setPhotographersInArea(photographersInSelectedArea);
+    }, [selectedArea, filteredPhotographers]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -30,12 +54,14 @@ function Contact() {
                     setUsername(`${response.username}`);
                     setValue('email', `${response.email}`);
                 }
+
             } catch (error) {
                 console.log('There was a problem with the API call:', error);
             }
         };
         fetchUserData();
     }, [setValue]);
+
 
 
     const onSubmit = async data => {
@@ -89,7 +115,7 @@ function Contact() {
                 {errors.userName && <p>error</p>}
                 <div className="input-label">
                     <FontAwesomeIcon icon={faEnvelope}/>
-                    <label>E-mail:</label>
+                    <label></label>
                     <input {...register("email", {required: true})} placeholder="Email"/>
                 </div>
                 {errors.email && <p>This field is required</p>}
@@ -100,13 +126,36 @@ function Contact() {
                     {errors.message && <p>This field is required</p>}
                 </div>
                 <div className="input-label">
+                    <FontAwesomeIcon icon={faMapMarkerAlt}/>
+                    <select id="workArea" required onChange={(e) => setSelectedArea(e.target.value)}>
+                        <option value="">Select a work area</option>
+                        {workAreas.map((area, index) => (
+                            <option key={index} value={area}>
+                                {area}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="input-label">
                     <FontAwesomeIcon icon={faCamera}/>
 
                     <input type="file" {...register("photoUpload", {required: false})} />
                     <label>JPG or PNG</label>
                     {errorPhotoUpload && <p>{errorPhotoUpload}</p>}
+                    {errors.photo && <p>This field is required</p>}
                 </div>
-                {errors.photo && <p>This field is required</p>}
+                <div className="input-label">
+                    <FontAwesomeIcon icon={faIdBadge}/>
+                    <label htmlFor="photographer">Choice of photographer by chosen photos and living area: </label>
+                    <select id="photographer" required onChange={(e) => setPhotographer(e.target.value)}>
+                        <option value="">Select a photographer</option>
+                        {photographersInArea.map((photographer, index) => (
+                            <option key={index} value={photographer.name}>
+                                {photographer.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
                 <input type="submit"/>
             </form>
@@ -116,10 +165,10 @@ function Contact() {
                     <div className="modal-content">
                         <h3>Thank you for your submission, we'll get back to you!</h3>
                         <p>Your submission:</p>
-                    <p>Name: {formData.name}</p>
-                    <p>Email: {formData.email}</p>
-                    <p>Message: {formData.message}</p>
-                    <button className="modalButton" onClick={closeModal}></button>
+                        <p>Name: {formData.name}</p>
+                        <p>Email: {formData.email}</p>
+                        <p>Message: {formData.message}</p>
+                        <button className="modalButton" onClick={closeModal}></button>
                     </div>
                 </div>
             )}

@@ -13,10 +13,8 @@
 form {
     display: flex;
     margin:30px;
-
     flex-direction: column;
     gap: 20px;
-
     padding: 20px;
     justify-content: center;
     align-items: center;

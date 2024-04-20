@@ -71,3 +71,17 @@
 /*    grid-column: span 2;*/
 /*    grid-area: landscape;*/
 /*}*/
+
+.photo-container {
+    position: relative;
+}
+
+.photo-container .pinButtonContainer button {
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    transform: translateY(-50%);
+    background: transparent;
+    opacity: 1;
+    color: sandybrown;
+}

@@ -1,5 +1,7 @@
 function uploadPhoto(username, photoFile) {
 
+    //todo implement and test the function that will upload the photo to the server
+
     if (!['image/jpeg', 'image/png'].includes(photoFile.type)) {
         console.error('Invalid file type. Please upload a JPEG or PNG file.');
         return "Invalid file type. Please upload a JPEG or PNG file.";

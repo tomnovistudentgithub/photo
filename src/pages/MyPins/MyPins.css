@@ -43,7 +43,7 @@
 
 
 .my-pins-container .grid-container .grid-item img {
-    width: 90%;
+    width: 100%;
     margin-top: 10px;
     height: 75%;
     object-fit: cover;
@@ -105,6 +105,7 @@
     background: transparent;
     border: none;
     opacity: 1;
+    color: sandybrown;
 }
 
 .my-pins-container .grid-container .grid-item div button:hover {

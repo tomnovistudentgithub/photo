@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './About.modules.css';
-import useTagCounts from "../../helpers/useTagCounts.js";
+
 import useGetPhotoFromDBWithId from "../../api/getPhotoFromDBWithId.js";
 import countTagsInPhotos from "../../helpers/countTagsInPhotos.js";
 import PhotoCard from "../../components/PhotoCard/PhotoCard.jsx";

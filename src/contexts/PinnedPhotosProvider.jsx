@@ -27,7 +27,7 @@ const PinnedPhotosProvider = ({ children }) => {
             setLoading(true);
             const photosPromises = pinnedPhotosIds.map(id => getPhotoFromDBWithId(id));
             let photos = await Promise.all(photosPromises);
-            photos = photos.filter(photo => photo !== null); // filter out null values
+            photos = photos.filter(photo => photo !== null);
             console.log('Photos:', photos);
 
             const photosWithDetails = photos.map(photo => {
@@ -65,7 +65,7 @@ const PinnedPhotosProvider = ({ children }) => {
             setTagCounts(counts);
             console.log('Tag counts:', counts);
 
-            // Filter tagCounts and store in local storage
+
             const filteredCounts = Object.fromEntries(
                 Object.entries(counts).filter(([tag, count]) => count > 5)
             );

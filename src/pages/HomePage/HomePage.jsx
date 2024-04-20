@@ -69,8 +69,8 @@ function HomePage() {
     return (
         <div className="outer-section-homepage">
             <div className="header-container">
-            <h2>Photo topics</h2>
-            {/*<div className="juststyle"></div>*/}
+                <h2>Photo topics</h2>
+                {/*<div className="juststyle"></div>*/}
             </div>
 
             <section className="outer-section-topics">
@@ -89,16 +89,20 @@ function HomePage() {
             </section>
 
 
-                <div className="header-container">
-                    <h2>Photos</h2>
-                </div>
+            <div className="header-container">
+                <h2>Photos</h2>
+                <button className="page-buttons-homepage" onClick={handlePrev}>Previous photos</button>
+                <button className="page-buttons-homepage" onClick={handleNext}>Next photos</button>
+                <p className="disclaimer-homepage"> *Please note that I use a developers license of the API and not a
+                    production license. Therefore I have a very limited rate limit so please be gentle in hitting the
+                    next button or you'll need to wait for 60 minutes</p>
+            </div>
 
             <section className="outer-section-photos-homepage">
                 {photos.map((photo) => (
                     <PhotoCard key={photo.id} photo={photo}/>
                 ))}
-                <button onClick={handlePrev}>Previous</button>
-                <button onClick={handleNext}>Next</button>
+
             </section>
 
         </div>

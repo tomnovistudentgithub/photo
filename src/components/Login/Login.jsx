@@ -74,7 +74,6 @@ function Login() {
 
             <p>No account yet? Register your account now <a href="/registration">here</a></p>
 
-            <p>Forgot your password? <a href="/">Reset your password.</a> </p>
 
         </form>
     );

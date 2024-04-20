@@ -1,28 +1,16 @@
-import useTagCounts from "../helpers/useTagCounts.js";
-import photographers from "../assets/photographers.json";
+import photographersData from "../assets/photographers.json";
 
-function MatchPhotoGrapherToUserByTags() {
-    const tagCounts = useTagCounts();
+function MatchPhotoGrapherToUserByTags({ tagCounts }) {
 
-    // Get the user's most chosen tags
+
     const userTags = Object.keys(tagCounts);
 
-    // Filter the photographers whose skills match the user's most chosen tags
-    const matchingPhotographers = photographers.filter(photographer =>
-        photographer.skills.some(skill => userTags.includes(skill))
+    const matchingPhotographers = photographersData.photographers.filter(photographer =>
+        photographer.style.some(style => userTags.includes(style))
     );
 
-    return (
-        <div>
-            {matchingPhotographers.map(photographer => (
-                <div key={photographer.id}>
-                    <h2>{photographer.name}</h2>
-                    <p>{photographer.bio}</p>
-                    <p>Skills: {photographer.skills.join(", ")}</p>
-                </div>
-            ))}
-        </div>
-    );
+    return matchingPhotographers;
 }
 
-export default matchPhotoGrapherToUserByTags;
+
+export default MatchPhotoGrapherToUserByTags;

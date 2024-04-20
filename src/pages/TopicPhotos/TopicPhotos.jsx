@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import unsplashedEndpoint from '../../api/unsplashedApi/unsplashedEndpoint.js';
 import { getTopic } from '../../api/unsplashedApi/getTopic.js';
 import { getTopicPhotos } from '../../api/unsplashedApi/getTopicPhotos.js'
 import * as styles from './TopicPhotos.modules.css';
+import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
+import PhotoPinner from "../../components/PhotoPinner/PhotoPinner.jsx";
 function TopicPhotos() {
 
     //leest parameter uit de URL uit
@@ -11,6 +13,20 @@ function TopicPhotos() {
     const [topic, setTopic] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [showPhotos, setShowPhotos] = useState(false);
+    const { pinnedPhotos, setPinnedPhotos } = useContext(PinnedPhotosContext);
+
+    const togglePin = (photoId) => {
+        setPinnedPhotos(prevPinnedPhotos => {
+            if (prevPinnedPhotos.includes(photoId)) {
+                // Unpin the photo if it's already pinned
+                return prevPinnedPhotos.filter(id => id !== photoId);
+            } else {
+                // Pin the photo if it's not already pinned
+                return [...prevPinnedPhotos, photoId];
+            }
+        });
+    };
+
 
     useEffect(() => {
         // const timer = setTimeout(() => {
@@ -41,7 +57,7 @@ function TopicPhotos() {
     useEffect(() => {
         const fetchPhotos = async () => {
             try {
-                const data = await getTopicPhotos(topicId, 5+1);
+                const data = await getTopicPhotos(topicId, 9);
                 setPhotos(data);
                 console.log("photos: ", photos);
             } catch (error) {
@@ -99,8 +115,12 @@ function TopicPhotos() {
                     // }
                     console.log(`Photo ${index + 1} is ${orientation}`);
 
+
                     return (
-                        <img src={photo.urls.small} alt={photo.alt_description} key={photo.id} style={{gridArea}}/>
+                        <div key={photo.id} className="photo-container">
+                            <img src={photo.urls.small} alt={photo.alt_description} style={{gridArea}}/>
+                            <PhotoPinner photo={photo}/>
+                        </div>
                     );
                 })}
             </div>
