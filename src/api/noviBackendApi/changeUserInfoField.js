@@ -1,12 +1,17 @@
 import backendEndpoint from "./backendEndpoint.js";
 import getUserFromTokenAndPassToken from "../../helpers/getUserFromTokenAndPassToken.js";
-import getUserInfoField from "./getUserInfoField.js";
+
+import checkTokenValidity from "../../helpers/checkTokenValidity.js";
 
 async function changeUserInfoField(ids) {
     const userAndToken = getUserFromTokenAndPassToken();
     const userName = userAndToken.username;
     const token = userAndToken.token;
     console.log('ids:', ids);
+
+    const isTokenValid = checkTokenValidity();
+    console.log('isTokenValid:', isTokenValid);
+
 
     try {
         console.log(`Sending PUT request to /users/${userName} with token ${token}`);

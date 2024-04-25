@@ -1,5 +1,6 @@
 import backendEndpoint from "./backendEndpoint.js";
 import getUserFromTokenAndPassToken from "../../helpers/getUserFromTokenAndPassToken.js";
+import checkTokenValidity from "../../helpers/checkTokenValidity.js";
 
 async function getUserRoleEmail({ username, token } = {}) {
     if (!username || !token) {
@@ -12,7 +13,12 @@ async function getUserRoleEmail({ username, token } = {}) {
 
 
         }
+
     }
+
+    const isTokenValid = checkTokenValidity();
+    console.log('isTokenValid:', isTokenValid);
+
     if (username && token) {
 
 
@@ -36,6 +42,9 @@ async function getUserRoleEmail({ username, token } = {}) {
                 throw new Error('Error getting user info');
             }
         } catch (error) {
+            if (error.response && error.response.status === 403) {
+                throw new Error('Rate limit exceeded');
+            }
             console.error('Error getting user info:', error);
             return null;
         }

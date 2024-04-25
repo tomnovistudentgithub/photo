@@ -4,6 +4,7 @@ import { getTopics } from '../api/unsplashedApi/getTopics.js';
 export const useTopics = () => {
     const [topics, setTopics] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchTopics = async () => {
@@ -14,11 +15,12 @@ export const useTopics = () => {
             } catch (error) {
                 console.error(error);
                 setIsLoading(false);
+                setError(error.message);
             }
         };
 
         fetchTopics();
     }, []);
 
-    return { topics, isLoading };
+    return { topics, isLoading, error };
 };

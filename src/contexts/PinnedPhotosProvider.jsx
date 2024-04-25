@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PinnedPhotosContext from './PinnedPhotoContext.js';
 import changeUserInfoField from "../api/noviBackendApi/changeUserInfoField.js";
 import getUserInfoField from "../api/noviBackendApi/getUserInfoField.js";
 import countTagsInPhotos from "../helpers/countTagsInPhotos.js";
 import getPhotoFromDBWithId from "../api/getPhotoFromDBWithId.js";
+import {AuthContext} from "./AuthContext.jsx";
 
 const PinnedPhotosProvider = ({ children }) => {
     const [pinnedPhotosIds, setPinnedPhotosIds] = useState([]);
     const [pinnedPhotos, setPinnedPhotos] = useState([]);
     const [tagCounts, setTagCounts] = useState({});
     const [loading, setLoading] = useState(true);
+    const { isLoggedIn } = useContext(AuthContext);
+    const [error, setError] = useState(null);
 
     const fetchPinnedPhotos = async () => {
         console.log('Fetching pinned photos');
@@ -19,8 +22,14 @@ const PinnedPhotosProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        if (!isLoggedIn) {
+            setPinnedPhotos([]);
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
         fetchPinnedPhotos();
-    }, []);
+    }, [isLoggedIn]);
 
     useEffect(() => {
         const fetchPhotosByIds = async () => {
@@ -82,16 +91,20 @@ const PinnedPhotosProvider = ({ children }) => {
             updatedPinnedPhotos = [...pinnedPhotosIds, photo.id];
         }
 
+
         try {
             await changeUserInfoField(updatedPinnedPhotos);
             setPinnedPhotosIds(updatedPinnedPhotos);
+
+            setError(null);
         } catch (error) {
             console.error('Error updating user info:', error);
+            setError('Failed to pin/unpin photo. Please try again later.');
         }
     }
 
     return (
-        <PinnedPhotosContext.Provider value={{ pinnedPhotos, setPinnedPhotos, togglePinPhoto, fetchPinnedPhotos, tagCounts}}>
+        <PinnedPhotosContext.Provider value={{ pinnedPhotos, setPinnedPhotos, togglePinPhoto, fetchPinnedPhotos, tagCounts, error}}>
             {children}
         </PinnedPhotosContext.Provider>
     );

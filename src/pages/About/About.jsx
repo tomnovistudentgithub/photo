@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './About.modules.css';
 
-import useGetPhotoFromDBWithId from "../../api/getPhotoFromDBWithId.js";
-import countTagsInPhotos from "../../helpers/countTagsInPhotos.js";
-import PhotoCard from "../../components/PhotoCard/PhotoCard.jsx";
-
 
 
 function About() {
@@ -12,17 +8,34 @@ function About() {
 
     return (
 
-        <div className={"about-container"}>
+        <div className="about-outer-container">
 
-            <h1> ...Ever wondered... </h1>
-            <h3> how you or your family would look like on those amazing photos you see on the internet</h3>
-            <p>This page aims to bring you in touch with top notch photographers from your surroundings.
-                By picking your favorite photo's we'll determine the best photographer you can hire closeby.
-            </p>
-            <p>To do this we make use of Photographers data on Unsplashed.
-            </p>
+            <div className="about-inner-container">
+                <div className="about-header">
+                <h1> Ever wondered... </h1>
+                <ul>
+                    <li> Who makes those amazing photos you on social media? </li>
+                    <li> Ever thought how you or your family would look if you had a photograph taken like that?</li>
+                </ul>
+                </div>
+
+                <p>
+                    My Photo Match aims to bring you in touch with top notch photographers from your surroundings.
+                    By picking your favorite photo's we'll determine the best photographer you can hire closeby.
+
+                    To do this we make use of Photographers data on Unsplashed.
+                    Pin your favourite photos from the homepage or the topic pages.
+                    On the bottom of the My Pins page you can see which styles relate to your photo.
+                    Once you have a nice selection, go to the contact page to get in touch with the photographers that
+                    match your chosen style. Enjoy your photoshoot!
+                </p>
 
 
+
+                <caption><a
+                    href="https://www.freepik.com/free-photo/woman-with-camera-taking-picture-reflection_28006248.htm#query=photography&position=0&from_view=keyword&track=sph&uuid=f218c2dd-d773-4a4c-ac5e-433558ac0fea">Image
+                    by HelloDavidPradoPerucha on Freepik</a></caption>
+            </div>
         </div>
     );
 }

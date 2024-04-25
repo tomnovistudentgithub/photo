@@ -10,6 +10,7 @@ function AuthContextProvider({ children }) {
     const [authState, setAuthState] = useState({user: null, status: `pending`});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {
@@ -20,13 +21,18 @@ function AuthContextProvider({ children }) {
            const userAndToken = {userFromStorage, token }
 
             const fetchUser = async () => {
-                const user = await getUserRoleEmail(userAndToken);
+                try {
+                    const user = await getUserRoleEmail(userAndToken);
 
-                setAuthState({
-                    user: user,
-                    status: 'done',
-                });
-                setIsLoggedIn(true);
+                    setAuthState({
+                        user: user,
+                        status: 'done',
+                    });
+                    setIsLoggedIn(true);
+                } catch (error) {
+                    console.error('Error fetching user:', error);
+                    setError(error.message);
+                }
             };
             fetchUser();
         } else {
@@ -36,7 +42,6 @@ function AuthContextProvider({ children }) {
             });
             setIsLoggedIn(false);
             console.log(authState);
-
         } setLoading(false);
     }, []);
 
@@ -68,7 +73,7 @@ function AuthContextProvider({ children }) {
                 setIsLoggedIn(true);
                 setAuthState({ user: enteredUsername, status: 'done' });
                 console.log('User is logged in!');
-
+                return true;
 
             } else {
                 console.log('Error:', response);
@@ -78,6 +83,7 @@ function AuthContextProvider({ children }) {
         } catch (error) {
             console.error('Error:', error);
             console.log(enteredUsername);
+            return false;
         }
     }
 

@@ -1,12 +1,23 @@
 import unsplashedEndpoint from './unsplashedEndpoint.js';
 
-export async function getTopicPhotos(topicId, itemsPerPage) {
-    const response = await unsplashedEndpoint.get(`/topics/${topicId}/photos?per_page=${itemsPerPage}`);
-    if (response.status < 200 || response.status >= 300) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    console.log("response.data getTopicPhotos: ", response.data)
-    const data = await response.data;
+export async function getTopicPhotos(topicId, perPage) {
+    try {
+        const response = await unsplashedEndpoint.get(`topics/${topicId}/photos`, {
+            params: {
+                per_page: perPage,
+            },
+        });
 
-    return data.slice(1);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Error: ${response.status}`);
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data === 'Rate Limit Exceeded') {
+            throw new Error('Rate limit exceeded. Please try again later.');
+        } else {
+            throw error;
+        }
+    }
 }

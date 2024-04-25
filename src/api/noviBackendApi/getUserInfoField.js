@@ -1,5 +1,6 @@
 import getUserFromTokenAndPassToken from "../../helpers/getUserFromTokenAndPassToken.js";
 import backendEndpoint from "./backendEndpoint.js";
+import checkTokenValidity from "../../helpers/checkTokenValidity.js";
 
 
 async function getUserInfoField({ username, token } = {}) {
@@ -11,6 +12,9 @@ async function getUserInfoField({ username, token } = {}) {
             token = result.token;
         }
     }
+
+    const isTokenValid = checkTokenValidity();
+    console.log('isTokenValid:', isTokenValid);
 
     if (username && token) {
         try {

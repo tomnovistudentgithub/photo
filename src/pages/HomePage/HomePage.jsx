@@ -14,13 +14,6 @@ function HomePage() {
     const { topics, isLoading: topicsLoading } = useTopics();
     const { pinnedPhotos, pinPhoto } = useContext(PinnedPhotosContext);
 
-
-    // useEffect(() => {
-    //
-    // }, [pinnedPhotos]);
-
-
-
     if (photosLoading || topicsLoading) {
         return <div>Loading...</div>;
     }
@@ -33,74 +26,44 @@ function HomePage() {
         setPage(prevPage => prevPage > 1 ? prevPage - 1 : 1);
     };
 
-    //Todo: add a loading spinner while the data is being fetched
-    //todo: state management en useEffect verhuizen naar custom hook directories,
-    // herbruikbaar en compacter
-    // useEffect(() => {
-    //     const fetchPhotos = async () => {
-    //         try {
-    //             const photoData = await getPhotos();
-    //             setPhotos(photoData);
-    //             setIsLoading(false);
-    //         } catch (error) {
-    //             console.error(error);
-    //             setIsLoading(false);
-    //         }
-    //     };
-    //     const fetchTopics = async () => {
-    //         try {
-    //             const topicData = await getTopics(1, 8);
-    //             setTopics(topicData);
-    //             setIsLoading(false);
-    //         } catch (error) {
-    //             console.error(error);
-    //             setIsLoading(false);
-    //         }
-    //     };
-    //
-    //     fetchPhotos();
-    //     fetchTopics();
-    // }, []);
-
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
-
     return (
         <div className="outer-section-homepage">
             <div className="header-container">
                 <h2>Photo topics</h2>
-                {/*<div className="juststyle"></div>*/}
             </div>
 
             <section className="outer-section-topics">
-
                 {topics.map((topic) => (
                     <div className="topic" key={topic.id}>
                         {topic.cover_photo &&
-                            <img src={topic.cover_photo.urls.small} alt={topic.cover_photo.alt_description}/>}
+                            <Link to={`/topic/${topic.id}`}>
+                                <img src={topic.cover_photo.urls.small} alt={topic.cover_photo.alt_description}/>
+                            </Link>
+                        }
                         <Link to={`/topic/${topic.id}`}>
                             <h3>{topic.title}</h3>
                         </Link>
                         <p>{topic.description}</p>
                     </div>
                 ))}
-
             </section>
 
 
             <div className="header-container">
                 <h2>Photos</h2>
-                <button className="page-buttons-homepage" onClick={handlePrev}>Previous photos</button>
-                <button className="page-buttons-homepage" onClick={handleNext}>Next photos</button>
+                <div className="homepage-buttons-container">
+                    <button className="page-buttons-homepage" onClick={handlePrev}>Previous photos</button>
+                    <button className="page-buttons-homepage" onClick={handleNext}>Next photos</button>
+                </div>
                 <p className="disclaimer-homepage"> *Please note that I use a developers license of the API and not a
                     production license. Therefore I have a very limited rate limit so please be gentle in hitting the
-                    next button or you'll need to wait for 60 minutes</p>
+                    next button or you'll need to wait for 60 minutes. Over the course of some time these photos will change. So if you revisit you have more to pin!</p>
             </div>
 
             <section className="outer-section-photos-homepage">
                 {photos.map((photo) => (
                     <PhotoCard key={photo.id} photo={photo}/>
+
                 ))}
 
             </section>

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './PhotoCard.modules.css';
 import PhotoPinner from "../PhotoPinner/PhotoPinner.jsx";
+import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
 
 function PhotoCard({ photo }) {
+
+    const {error} = useContext(PinnedPhotosContext);
 
     return (
         <div className="photo-card-inner-container">
@@ -13,6 +16,7 @@ function PhotoCard({ photo }) {
             <div className="photo-card-info">
                 <p>{photo.user && "Photo from Unsplashed user: "} </p>
                 <b> {photo.user.username}</b>
+                {error && <p>{error}</p>}
             </div>
         </div>
 

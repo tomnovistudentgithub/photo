@@ -1,0 +1,24 @@
+.outer-container-admin {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+color: rgba(243, 232, 214, 0.98);
+    margin-top: 20px;
+}
+
+.inner-container-admin {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(30, 69, 194);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+.download-button {
+    margin-left: 20px;
+
+}

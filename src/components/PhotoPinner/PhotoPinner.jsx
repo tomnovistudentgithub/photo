@@ -1,17 +1,25 @@
-import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
-import React, {useContext, useEffect, useState} from "react";
-import getUserInfoField from "../../api/noviBackendApi/getUserInfoField.js";
-import {faThumbtack, faBan} from "@fortawesome/free-solid-svg-icons";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PinnedPhotosContext from '../../contexts/PinnedPhotoContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbtack, faBan } from '@fortawesome/free-solid-svg-icons';
 import '/src/components/PhotoPinner/PhotoPinner.modules.css';
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
-function PhotoPinner({photo}) {
+function PhotoPinner({ photo }) {
     const { pinnedPhotos, setPinnedPhotos, togglePinPhoto } = useContext(PinnedPhotosContext);
+    const { isLoggedIn } = useContext(AuthContext);
     const [isPhotoPinned, setIsPhotoPinned] = useState(false);
+    const navigate = useNavigate();
+
     const handlePinPhoto = () => {
-        togglePinPhoto(photo);
+        if (!isLoggedIn) {
+            navigate('/login');
+        } else {
+            togglePinPhoto(photo);
+        }
     }
+
     const handleUnpinPhoto = () => {
         togglePinPhoto(photo);
     }
@@ -20,7 +28,6 @@ function PhotoPinner({photo}) {
         const isPinnedInDB = pinnedPhotos.some(pinnedPhoto => pinnedPhoto.id === photo.id);
         setIsPhotoPinned(isPinnedInDB);
     }, [photo.id, pinnedPhotos]);
-
 
     return (
         <div className="pinButtonContainer">
@@ -32,6 +39,5 @@ function PhotoPinner({photo}) {
         </div>
     );
 }
-
 
 export default PhotoPinner;

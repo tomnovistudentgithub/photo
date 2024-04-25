@@ -3,18 +3,6 @@ import unsplashedEndpoint from './unsplashedEndpoint.js';
 export const getTopics = async (page, itemsPerPage) => {
 
 
-   // try {
-   //
-   //
-   //     const response = await unsplashedEndpoint.get(`/topics?page=${page}&per_page=${itemsPerPage}`);
-   //     console.log("getTopics: ", response.data);
-   //
-   //     return response.data;
-   // } catch (error) {
-   //     console.error(error);
-   //
-   // }
-
     try {
         const response = await unsplashedEndpoint.get('/topics?per_page=20');
         console.log("getTopics: ", response.data);
@@ -27,10 +15,10 @@ export const getTopics = async (page, itemsPerPage) => {
             const [topic] = topics.splice(randomIndex, 1);
             randomTopics.push(topic);
         }
-
         return randomTopics;
     } catch (error) {
         console.error(error);
+        throw error;
     }
 
 

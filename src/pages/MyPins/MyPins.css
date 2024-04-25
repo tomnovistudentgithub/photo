@@ -117,3 +117,20 @@
 
 }
 
+@media (max-width: 1000px) {
+    .my-pins-container .grid-container {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 400px;
+        gap: 10px;
+    }
+
+    .my-pins-container .grid-container .grid-item-0,
+    .my-pins-container .grid-container .grid-item-1,
+    .my-pins-container .grid-container .grid-item-2,
+    .my-pins-container .grid-container .grid-item-4,
+    .my-pins-container .grid-container .grid-item-5 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+}

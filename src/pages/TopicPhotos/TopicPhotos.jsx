@@ -14,29 +14,21 @@ function TopicPhotos() {
     const [photos, setPhotos] = useState([]);
     const [showPhotos, setShowPhotos] = useState(false);
     const { pinnedPhotos, setPinnedPhotos } = useContext(PinnedPhotosContext);
-
-    const togglePin = (photoId) => {
-        setPinnedPhotos(prevPinnedPhotos => {
-            if (prevPinnedPhotos.includes(photoId)) {
-                // Unpin the photo if it's already pinned
-                return prevPinnedPhotos.filter(id => id !== photoId);
-            } else {
-                // Pin the photo if it's not already pinned
-                return [...prevPinnedPhotos, photoId];
-            }
-        });
-    };
+    const [error, setError] = useState(null);
 
 
-    useEffect(() => {
-        // const timer = setTimeout(() => {
-            setShowPhotos(true);
-        // }, 1000); // 1 seconde delay ingebouwd om de foto's vertraagd te laten zien zodat eerst de achtergrondfoto te zien is
-        //TODO checken of dit de correcte opruimactie is voor de timer (controller abort)
-        // return () => clearTimeout(timer);
+    // const togglePin = (photoId) => {
+    //     setPinnedPhotos(prevPinnedPhotos => {
+    //         if (prevPinnedPhotos.includes(photoId)) {
+    //             // Unpin the photo if it's already pinned
+    //             return prevPinnedPhotos.filter(id => id !== photoId);
+    //         } else {
+    //             // Pin the photo if it's not already pinned
+    //             return [...prevPinnedPhotos, photoId];
+    //         }
+    //     });
+    // };
 
-
-    }, []);
 
     useEffect(() => {
         const fetchTopic = async () => {
@@ -58,10 +50,28 @@ function TopicPhotos() {
         const fetchPhotos = async () => {
             try {
                 const data = await getTopicPhotos(topicId, 9);
-                setPhotos(data);
-                console.log("photos: ", photos);
+                const photosWithOrientation = data.map(photo => {
+                    const aspectRatio = photo.width / photo.height;
+                    let orientation = '';
+                    if (aspectRatio > 1) {
+                        orientation = 'landscape';
+                    } else if (aspectRatio < 1) {
+                        orientation = 'portrait';
+                    } else {
+                        orientation = 'square';
+                    }
+                    return {...photo, orientation};
+                });
+                setPhotos(photosWithOrientation);
+                setShowPhotos(true);
             } catch (error) {
                 console.error(error);
+                if (error.response && error.response.status === 403 && error.response.data === 'Rate Limit Exceeded') {
+                    setError('Rate limit exceeded. Please try again later.');
+                } else {
+                    setError(error.message);
+                }
+                throw error;
             }
         };
 
@@ -72,58 +82,41 @@ function TopicPhotos() {
         return <div className="loading">Loading...</div>;
     }
 
-
-
     const coverPhotoUrl = topic.cover_photo.urls.regular;
     console.log("coverPhotoUrl: ", coverPhotoUrl);
 
     return (
         <div className="topic-photos-wrapper" style={{backgroundImage: `url(${coverPhotoUrl})`}}>
             <div className="overlay">
-            <h1>{topic.title}</h1>
-            <p>{topic.description}</p>
-            </div>
-            <div className="photo-grid">
-                {showPhotos && photos.map((photo, index) => {
+                <div className="topic-content">
+                    <div className="topic-text">
+                    <h1>{topic.title}</h1>
+                        <p>{topic.description}</p>
+                    </div>
+                    {error ? (
+                        <div className="error">{error}</div>
+                    ) : (
+                        <div className="photo-grid">
 
-
-                    const aspectRatio = photo.width / photo.height;
-                    let orientation = '';
-                    if (aspectRatio > 1) {
-                        orientation = 'landscape';
-                    } else if (aspectRatio < 1) {
-                        orientation = 'portrait';
-                    } else {
-                        orientation = 'square';
-                    }
-
-
-                    let gridArea = '';
-                    // switch (index % 6) {
-                    //     case 0:
-                    //     case 3:
-                    //         gridArea = 'portrait';
-                    //         break;
-                    //     case 1:
-                    //     case 2:
-                    //     case 4:
-                    //         gridArea = 'landscape';
-                    //         break;
-                    //     default:
-                    //         gridArea = '.';
-                    //         break;
-                    // }
-                    console.log(`Photo ${index + 1} is ${orientation}`);
-
-
-                    return (
-                        <div key={photo.id} className="photo-container">
-                            <img src={photo.urls.small} alt={photo.alt_description} style={{gridArea}}/>
-                            <PhotoPinner photo={photo}/>
+                            {showPhotos && photos.map((photo, index) => {
+                                const gridRow = Math.floor(index / 3) + 1;
+                                const gridColumn = index % 3 + 1;
+                                const gridArea = `${gridRow} / ${gridColumn}`;
+                                const photoClass = photo.orientation === 'landscape' ? 'double-width' : 'double-height';
+                                return (
+                                    <div key={photo.id} className={`photo-container ${photoClass}`}>
+                                        <img src={photo.urls.small} alt={photo.alt_description} style={{gridArea}}/>
+                                        <PhotoPinner photo={photo}/>
+                                        {error && <p>{error}</p>}
+                                    </div>
+                                );
+                            })}
                         </div>
-                    );
-                })}
+                    )}
+                </div>
+
             </div>
+
         </div>
     );
 }

@@ -1,11 +1,22 @@
-import jwt from 'jsonwebtoken';
+import {jwtDecode} from 'jwt-decode';
 
-function checkTokenValidity(token) {
-    try {
-        jwt.verify(token, 'your-secret-key');
-        return { isValid: true, token };
-    } catch (error) {
-        return { isValid: false, message: 'Token is no longer valid. Please login again.' };
+function checkTokenValidity() {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000; // Get current time in seconds
+
+
+        console.log(decodedToken.exp);
+        console.log(currentTime);
+        if (decodedToken.exp < currentTime) {
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        } else {
+            return true;
+
+        }
     }
 }
 

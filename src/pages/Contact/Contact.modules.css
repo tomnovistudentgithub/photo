@@ -8,6 +8,7 @@
     flex-direction: row;
     justify-content: center;
     flex-basis: 1800px !important;
+    height: 90vh;
 }
 
 form {
@@ -32,6 +33,8 @@ form {
 }
 
 
+
+
 .input-icon-wrapper {
     /*display: flex;*/
     /*align-items: center;*/
@@ -46,6 +49,10 @@ form {
     height: 25px;
     margin: 0px;
 
+}
+
+.input-label select {
+    display: block;
 }
 
 svg {
@@ -66,7 +73,7 @@ label {
 }
 
 
-/* Modal */
+
 .modal {
     position: fixed;
     top: 0;
@@ -95,11 +102,14 @@ label {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #646cff;
-    color:white;
+    background-color: transparent;
+    color:black;
     border: none;
-    width: 30px;
-    height: 30px;
+    width: 10px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    Display: flex;
 }
 
 .modalButton button::before, .modalButton button::after {
@@ -110,7 +120,7 @@ label {
     width: 20px;
     height: 2px;
     background-color: black;
-    box-shadow: 3px 3px 3px 3px rgba(143, 143, 143, 0.2);
+    box-shadow: 2px 2px 2px 2px rgba(143, 143, 143, 0.1);
 }
 
 .modalButton button::before {

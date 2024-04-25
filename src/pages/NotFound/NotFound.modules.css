@@ -1,17 +1,34 @@
-.search-icon {
-    color: black;
+.outer-wrapper {
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.content-wrapper {
+    width: 80%;
+}
+
+
+
+.search-icon {
+    color: g;
+    height: 100px;
+}
+
+.detective-icon {
+    color: sandybrown;
+    margin-left:20px;
     position: relative;
-    left: -50px;
+    left: 10px;
     height: 100px;
     ;
 }
 
 svg {
-    display: block;
     margin: auto;
-
-
 }
 
 .my-link {
@@ -21,4 +38,13 @@ svg {
 
 #root {
     height: 100vh;
+}
+
+.icons-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+
+
 }

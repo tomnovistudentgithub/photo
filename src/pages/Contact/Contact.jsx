@@ -25,7 +25,7 @@ function Contact() {
     const [selectedArea, setSelectedArea] = useState('');
     const [filteredPhotographers, setFilteredPhotographers] = useState([]);
     const [photographersInArea, setPhotographersInArea] = useState([]);
-
+    const [formError, setFormError] = useState('');
 
     useEffect(() => {
         if (tagCounts) {
@@ -49,7 +49,6 @@ function Contact() {
                 const response = await getUserRoleEmail();
                 console.log('Response from API getUserRole:', response);
                 if (response) {
-
                     setValue('userName', `${response.username}`);
                     setUsername(`${response.username}`);
                     setValue('email', `${response.email}`);
@@ -66,20 +65,33 @@ function Contact() {
 
     const onSubmit = async data => {
         const photoFile = data.photoUpload[0];
-        const formData = uploadPhoto(username, photoFile);
+        const result = uploadPhoto(username, photoFile);
 
         if (typeof result === 'string') {
-            setErrorPhotoUpload(formData);
-            } else {
-            const response = await uploadPhotoToApi(username, formData);
-            if (response && response.status === 200) {
-                setFormData({
-                    name: data.name,
-                    email: data.email,
-                    message: data.message,
-                    photoUpload: photoFile.name
-                });
-                setIsModalOpen(true);
+            setErrorPhotoUpload(result);
+        } else {
+            try {
+                const response = await uploadPhotoToApi(username, result);
+                if (response && response.status === 200) {
+                    setFormData({
+                        name: data.name,
+                        email: data.email,
+                        message: data.message,
+                        photoUpload: photoFile.name
+                    });
+                    setIsModalOpen(true);
+                } else {
+                    throw new Error(' ');
+                }
+            } catch (error) {
+                console.error('Error uploading photo:',     error);
+                if (error.response) {
+                    setErrorPhotoUpload('Error uploading photo: ' + error.message);
+                    console.log(errorPhotoUpload);
+                } else {
+                    setErrorPhotoUpload('Error uploading photo: ' + error.message);
+                }
+                setFormError('There was a problem submitting the form. Please try again.');
             }
         }
     };
@@ -115,7 +127,6 @@ function Contact() {
                 {errors.userName && <p>error</p>}
                 <div className="input-label">
                     <FontAwesomeIcon icon={faEnvelope}/>
-                    <label></label>
                     <input {...register("email", {required: true})} placeholder="Email"/>
                 </div>
                 {errors.email && <p>This field is required</p>}
@@ -139,10 +150,10 @@ function Contact() {
                 <div className="input-label">
                     <FontAwesomeIcon icon={faCamera}/>
 
-                    <input type="file" {...register("photoUpload", {required: false})} />
+                    <input type="file" {...register("photoUpload", {required: true})} />
                     <label>JPG or PNG</label>
                     {errorPhotoUpload && <p>{errorPhotoUpload}</p>}
-                    {errors.photo && <p>This field is required</p>}
+                    {errors.photoUpload && <p>This field is required</p>}
                 </div>
                 <div className="input-label">
                     <FontAwesomeIcon icon={faIdBadge}/>
@@ -157,8 +168,9 @@ function Contact() {
                     </select>
                 </div>
 
-                <input type="submit"/>
+                <button type="submit">Submit</button>
             </form>
+            {formError && <p>{formError}</p>}
 
             {isModalOpen && (
                 <div className="modal">
@@ -168,7 +180,10 @@ function Contact() {
                         <p>Name: {formData.name}</p>
                         <p>Email: {formData.email}</p>
                         <p>Message: {formData.message}</p>
-                        <button className="modalButton" onClick={closeModal}></button>
+                        <p>Photo: {formData.photoUpload}</p>
+                        <p>Work area: {selectedArea}</p>
+                        <p>Photographer: {photographer}</p>
+                        <button className="modalButton" onClick={closeModal}>X</button>
                     </div>
                 </div>
             )}

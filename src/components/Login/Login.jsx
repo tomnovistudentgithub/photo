@@ -7,23 +7,29 @@ function Login() {
     const [password, setPassword] = useState('');
     const { login } = useContext(AuthContext);
     const [token, setToken] = useState('');
-    const [userNameError, setUserNameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [loginError, setLoginError]  = useState('');
     let navigate = useNavigate();
     let location = useLocation();
-    let data;
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
 
         try {
-            await login(username, password);
-            let { from } = location.state || { from: { pathname: "/" } };
-            navigate(from);
-            console.log("location from login Page " + location.state);
-        } catch (error) {
+            const loginSuccess = await login(username, password);
+            if (loginSuccess) {
+                // let { from } = location.state || { from: { pathname: "/" } };
+                setLoginError('');
+                let { from } = location.state || { from: { pathname: "/" } };
+                navigate(from);
+                console.log("location from login Page " + location.pathname);
+            } else {
+                setLoginError('Username or password is incorrect');
+            }
+            } catch (error) {
             console.error('Error:', error);
+            setLoginError('An error occurred while logging in');
         }
     }
 
@@ -68,7 +74,7 @@ function Login() {
             <label>
                 Password:
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                {(userNameError || passwordError) && <p className="error-feedback">Username or password is incorrect</p>}
+                {loginError && <p className="error-feedback">{loginError}</p>}
             </label>
             <input type="submit" value="Login" />
 

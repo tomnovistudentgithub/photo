@@ -12,6 +12,10 @@ function UserInfoButton({ username }) {
 
     const handleClick = async () => {
         try {
+            if (!username) {
+                setError('Username is required');
+                return;
+            }
             const token = getToken();
             console.log('Token:', token);
             console.log(username);
