@@ -12,14 +12,12 @@ import AdminPortal from "./pages/Admin/AdminPortal.jsx";
 import './App.css';
 import GridPage from "./pages/grid/Gridpage.jsx";
 import PinnedPhotosProvider from "./contexts/PinnedPhotosProvider.jsx";
+import MyPins from "./pages/MyPins/MyPins.jsx";
 import AuthContextProvider, {AuthContext} from "./contexts/AuthContext.jsx";
 import About from "./pages/About/About.jsx";
-import MyPins from "./pages/MyPins/MyPins.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 function App() {
-
-    const auth = true;
-
 
 
     return (
@@ -38,7 +36,7 @@ function App() {
                 <Route path="/mypins" element={<MyPins />} />
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/grid" element={<GridPage />} />
-                <Route path="/admin" element={auth ? <AdminPortal /> : <Login />} />
+                <Route path="/admin" element={<AdminRoute />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

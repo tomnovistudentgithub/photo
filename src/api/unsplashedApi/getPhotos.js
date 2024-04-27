@@ -25,7 +25,7 @@ export const getPhotos = async (page = 1) => {
 
         const photosWithDetails = photosWithDetailsResponses.map(response => response.data);
         console.log(photosWithDetails);
-        //map over photodetails to get additional data
+
         photosWithDetails.forEach(photo => {
             const photoUrl = photo.urls.regular;
             console.log(photoUrl);

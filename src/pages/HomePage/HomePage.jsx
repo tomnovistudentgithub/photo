@@ -10,20 +10,22 @@ import PhotoPinner from "../../components/PhotoPinner/PhotoPinner.jsx";
 import PinnedPhotosContext from "../../contexts/PinnedPhotoContext.js";
 
 function HomePage() {
-    const { photos, isLoading: photosLoading, setPage } = usePhotos();
+    const { photos, isLoading: photosLoading, setPage, error } = usePhotos();
     const { topics, isLoading: topicsLoading } = useTopics();
     const { pinnedPhotos, pinPhoto } = useContext(PinnedPhotosContext);
+
 
     if (photosLoading || topicsLoading) {
         return <div>Loading...</div>;
     }
 
     const handleNext = () => {
-        setPage(prevPage => prevPage + 1);
+            setPage(prevPage => prevPage + 1);
+
     };
 
     const handlePrev = () => {
-        setPage(prevPage => prevPage > 1 ? prevPage - 1 : 1);
+            setPage(prevPage => prevPage > 1 ? prevPage - 1 : 1);
     };
 
     return (
@@ -43,7 +45,7 @@ function HomePage() {
                         <Link to={`/topic/${topic.id}`}>
                             <h3>{topic.title}</h3>
                         </Link>
-                        <p>{topic.description}</p>
+                        <p className="topic-description-homepage">{topic.description}</p>
                     </div>
                 ))}
             </section>
@@ -55,6 +57,9 @@ function HomePage() {
                     <button className="page-buttons-homepage" onClick={handlePrev}>Previous photos</button>
                     <button className="page-buttons-homepage" onClick={handleNext}>Next photos</button>
                 </div>
+                {error && <div className="error-message">{error}</div>}
+
+
                 <p className="disclaimer-homepage"> *Please note that I use a developers license of the API and not a
                     production license. Therefore I have a very limited rate limit so please be gentle in hitting the
                     next button or you'll need to wait for 60 minutes. Over the course of some time these photos will change. So if you revisit you have more to pin!</p>

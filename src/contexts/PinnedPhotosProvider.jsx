@@ -16,7 +16,10 @@ const PinnedPhotosProvider = ({ children }) => {
 
     const fetchPinnedPhotos = async () => {
         console.log('Fetching pinned photos');
-        const userInfo = await getUserInfoField();
+        let userInfo = await getUserInfoField();
+        if (typeof userInfo === 'string') {
+            userInfo = [userInfo];
+        }
         setPinnedPhotosIds(userInfo || []);
         setLoading(false);
     };
@@ -102,6 +105,7 @@ const PinnedPhotosProvider = ({ children }) => {
             setError('Failed to pin/unpin photo. Please try again later.');
         }
     }
+
 
     return (
         <PinnedPhotosContext.Provider value={{ pinnedPhotos, setPinnedPhotos, togglePinPhoto, fetchPinnedPhotos, tagCounts, error}}>

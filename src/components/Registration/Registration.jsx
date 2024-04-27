@@ -23,7 +23,6 @@ function Registration() {
             username: username,
             email: email,
             password: password,
-            info: 'userRegistration',
             authorities: [
                 {
                     authority: 'USER'

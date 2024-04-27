@@ -15,6 +15,7 @@ function TopicPhotos() {
     const [showPhotos, setShowPhotos] = useState(false);
     const { pinnedPhotos, setPinnedPhotos } = useContext(PinnedPhotosContext);
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
 
     // const togglePin = (photoId) => {
@@ -64,6 +65,7 @@ function TopicPhotos() {
                 });
                 setPhotos(photosWithOrientation);
                 setShowPhotos(true);
+                setIsLoading(false);
             } catch (error) {
                 console.error(error);
                 if (error.response && error.response.status === 403 && error.response.data === 'Rate Limit Exceeded') {
@@ -71,6 +73,7 @@ function TopicPhotos() {
                 } else {
                     setError(error.message);
                 }
+                setIsLoading(false);
                 throw error;
             }
         };
@@ -78,8 +81,12 @@ function TopicPhotos() {
         fetchPhotos();
     }, [topicId]);
 
-    if (!topic) {
+    if (isLoading) {
         return <div className="loading">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
     }
 
     const coverPhotoUrl = topic.cover_photo.urls.regular;

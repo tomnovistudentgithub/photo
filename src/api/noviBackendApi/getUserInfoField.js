@@ -26,7 +26,7 @@ async function getUserInfoField({ username, token } = {}) {
 
             if (response.status >= 200 && response.status < 300) {
                 const userInfo = response.data;
-                console.log('userInfo a:', userInfo);
+                console.log('userInfoField a:', userInfo);
                 return userInfo;
             } else {
                 throw new Error('Error getting user info');

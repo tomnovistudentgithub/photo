@@ -14,16 +14,31 @@
     color:sandybrown;
 
 }
-.my-pins-container h1 {
+.my-pins-h1-pinned {
     position: absolute;
-    z-index: -1;
-    font-size: 5em;
-    opacity: 0.2;
+    z-index: 1;
+    font-size: 3em;
+    opacity: 0.4;
     width: 100%;
     text-align: center;
-    top: 50%;
+    top: 5%;
+    margin: 5px;
     transform: translateY(-50%);
+    font-style: italic;
+}
 
+.my-pins-h1-tagcounts {
+
+    position: absolute;
+    z-index: 1;
+    font-size: 3em;
+    opacity: 0.4;
+    width: 100%;
+    text-align: center;
+    bottom: 5%;
+    transform: translateY(-50%);
+    font-style: italic;
+    right: 20%;
 }
 
 .my-pins-container .grid-container .grid-item {
@@ -45,7 +60,7 @@
 .my-pins-container .grid-container .grid-item img {
     width: 100%;
     margin-top: 10px;
-    height: 75%;
+    height: 90%;
     object-fit: cover;
     /*border-radius: 10px;*/
     border: 9px solid #000000;

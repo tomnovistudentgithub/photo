@@ -17,7 +17,7 @@ function MyPins () {
 
     return (
         <div className="my-pins-container">
-            <h1>Pinned </h1>
+            <h1 className="my-pins-h1-pinned">My Pinned Photos</h1>
 
             <div className="grid-container">
                 {pinnedPhotos.map((photo, index) => (
@@ -33,7 +33,7 @@ function MyPins () {
             </div>
             <div className="mypins-tag-container">
             <MostChosenTags tagCounts={tagCounts} />
-            <h1>Tag counts</h1>
+            <h1 className="my-pins-h1-tagcounts">Tag counts</h1>
                 </div>
 
             {/*<ul>*/}

@@ -43,7 +43,7 @@ async function getUserRoleEmail({ username, token } = {}) {
             }
         } catch (error) {
             if (error.response && error.response.status === 403) {
-                throw new Error('Rate limit exceeded');
+                throw new Error('Rate limit exceeded, please try again later.');
             }
             console.error('Error getting user info:', error);
             return null;

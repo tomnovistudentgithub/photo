@@ -29,6 +29,7 @@ function PhotoPinner({ photo }) {
         setIsPhotoPinned(isPinnedInDB);
     }, [photo.id, pinnedPhotos]);
 
+
     return (
         <div className="pinButtonContainer">
             {isPhotoPinned ? (

@@ -34,9 +34,7 @@
 }
 
 .topic-text {
-
-    color: white;
-    font-size: 2rem;
+    color: white;;
     margin: 20px;
 }
 
@@ -47,11 +45,13 @@
     margin: 20px;
 }
 
-
+.topic-text h1 {
+    font-size: 1.7rem;
+}
 
 .overlay h1, .overlay p {
 
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 20px;
 
 
@@ -161,4 +161,12 @@
     background: transparent;
     opacity: 1;
     color: sandybrown;
+}
+
+.error-message {
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    background-color: rgba(178, 34, 34, 0.76);
 }

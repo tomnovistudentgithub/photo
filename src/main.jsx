@@ -8,7 +8,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
       <div className="outer-container-website">
-      {/*<BrowserRouter>*/}
 
           <App />
     </div>
