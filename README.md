@@ -1,4 +1,3 @@
-
 # MyPhotoMatch
 
 ![Screenshot van de applicatie](https://github.com/tomnovistudentgithub/photo/blob/main/src/assets/MyPhotoMatchHomepage.png)
@@ -16,7 +15,6 @@ Om deze applicatie lokaal te kunnen draaien, heb je het volgende nodig:
   VITE_PHOTOMATCH_ACCESS_KEY=
 
   
-
 ## Installatie
 
 Volg deze stappen om dit project lokaal uit te voeren:
